@@ -4,15 +4,16 @@
 
 void menu();
 
+int contar_tarefas();
 
-int carregar_tarefas();
+int obter_indice();
 
 void adicionar_tarefas();
 
 void deletar_tarefas();
 
-void listar_prioridade();
-
 void listar_tarefas();
+
+void editar_tarefa();
 
 #endif //UNTITLED1_BIBLIOTECA_H
