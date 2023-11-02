@@ -3,7 +3,14 @@
 #include <stdlib.h>
 #include <string.h>
 
-
+struct tarefa {
+  int prioridade;
+  char categoria[11];
+  char descricao[100];
+  char status[13];
+  int indice;
+  int max_caracteres[20];
+};
 
 // Obtem o numero de indice para criação das tarefas
 int obter_indice() {
