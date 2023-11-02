@@ -392,8 +392,35 @@ void editar_tarefa(){
 
   switch (a){
 
+    //edita a prioridade da tarefa
     case 1:{
-      
+       printf("\nDigite o indice da tarefa: ");
+      scanf("%d", &indce);
+
+      //procura a tarefa pelo indice 
+      while (fread(&tarefas, sizeof(tarefas), 1, arquivo_tarefas)) {
+        if (tarefas.indice == indce){
+
+          //variavel que armazena a nova prioridade
+          int prio;
+  
+          printf("Digite a nova prioridade: ");
+          scanf("%d", &prio);
+
+          //altera a prioridade da tarefa
+          tarefas.prioridade = prio;
+
+          //salva no arquivo a alteração
+          fseek(arquivo_tarefas, -sizeof(struct tarefa), SEEK_CUR);
+          fwrite(&tarefas, sizeof(struct tarefa), 1, arquivo_tarefas);
+
+          //fecha o arquivo
+          fclose(arquivo_tarefas);
+            
+          printf("\nPrioridade alterada para: %d\n", tarefas.prioridade);
+          return;
+        }  
+      } 
     }
 
     
