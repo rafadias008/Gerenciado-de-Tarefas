@@ -229,3 +229,139 @@ void deletar_tarefas() {
 
   fclose(arquivo_tarefas);
 }
+
+void listar_tarefas() {
+  FILE *arquivo_tarefas;
+  struct tarefa tarefas;
+
+  int c;
+
+  // Abre o arquivo binário para leitura
+  arquivo_tarefas = fopen("tarefas.bin", "rb");
+  if (arquivo_tarefas == NULL) {
+    printf("Erro ao abrir o arquivo.\n");
+    return;
+  }
+
+  printf("\nLista de Tarefas:\n\n");
+
+  printf("Escolha o filtro: \n\n");
+  printf("1 - Prioridade\n2 - Categoria\n3 - Status\n4 - Prioridade e Categoria\n");
+  printf("\nFiltro escolhido: ");
+  scanf("%d", &c);
+  printf("\n");
+
+  // Lê todas as tarefas para um array
+  struct tarefa todas_tarefas[100]; // Assumindo um número máximo de tarefas (ajuste conforme necessário)
+  int num_tarefas = 0;
+
+  while (fread(&tarefas, sizeof(struct tarefa), 1, arquivo_tarefas) == 1 && num_tarefas < 100) {
+    todas_tarefas[num_tarefas] = tarefas;
+    num_tarefas++;
+  }
+
+  // Ordena as tarefas
+  switch (c) {
+
+    
+    // Ordena as tarefas por prioridade
+    case 1:{ 
+      for (int i = 0; i < num_tarefas - 1; i++) {
+        for (int j = i + 1; j < num_tarefas; j++) {
+          if (todas_tarefas[i].prioridade < todas_tarefas[j].prioridade) {
+            struct tarefa temp = todas_tarefas[i];
+            todas_tarefas[i] = todas_tarefas[j];
+            todas_tarefas[j] = temp;
+          }
+        }
+      }
+      // Lista as tarefas ordenadas
+      for (int i = 0; i < num_tarefas; i++) {
+        if (todas_tarefas[i].prioridade > 0) {
+          printf("\n");
+          printf("Prioridade: %d\n", todas_tarefas[i].prioridade);
+          printf("Descrição: %s\n", todas_tarefas[i].descricao);
+          printf("Categoria: %s\n", todas_tarefas[i].categoria);
+          printf("Status: %s\n", todas_tarefas[i].status);
+          printf("Indice: %d\n", todas_tarefas[i].indice);
+        }
+      }
+      break;
+    }
+
+    
+    // Ordena as tarefas por categoria
+    case 2:{ 
+      for (int i = 0; i < num_tarefas - 1; i++) {
+        for (int j = i + 1; j < num_tarefas; j++) {
+          if (strcmp(todas_tarefas[i].categoria, todas_tarefas[j].categoria) > 0) {
+            struct tarefa temp = todas_tarefas[i];
+            todas_tarefas[i] = todas_tarefas[j];
+            todas_tarefas[j] = temp;
+          }
+        }
+      }
+      // Lista as tarefas ordenadas
+      for (int i = 0; i < num_tarefas; i++) {
+        if (todas_tarefas[i].prioridade > 0) {
+          printf("\n");
+          printf("Prioridade: %d\n", todas_tarefas[i].prioridade);
+          printf("Descrição: %s\n", todas_tarefas[i].descricao);
+          printf("Categoria: %s\n", todas_tarefas[i].categoria);
+          printf("Status: %s\n", todas_tarefas[i].status);
+          printf("Indice: %d\n", todas_tarefas[i].indice);
+        }
+      }
+      break;
+    }
+
+    
+    // Ordenas as tarefas por status
+    case 3:{
+      for (int i = 0; i < num_tarefas - 1; i++) {
+        for (int j = i + 1; j < num_tarefas; j++) {
+          if (strcmp(todas_tarefas[i].status, todas_tarefas[j].status) > 0) {
+            struct tarefa temp = todas_tarefas[i];
+            todas_tarefas[i] = todas_tarefas[j];
+            todas_tarefas[j] = temp;
+          }
+        }
+      }
+      // Lista as tarefas ordenadas
+      for (int i = 0; i < num_tarefas; i++) {
+        if (todas_tarefas[i].prioridade > 0) {
+          printf("\n");
+          printf("Prioridade: %d\n", todas_tarefas[i].prioridade);
+          printf("Descrição: %s\n", todas_tarefas[i].descricao);
+          printf("Categoria: %s\n", todas_tarefas[i].categoria);
+          printf("Status: %s\n", todas_tarefas[i].status);
+          printf("Indice: %d\n", todas_tarefas[i].indice);
+        }
+      }
+      break;
+    }
+    // Ordena as tarefas por prioridade e categoria
+    case 4:{
+      
+      int cat, pri;
+      
+      printf("\nCategorias: \n");
+      printf("\n1 - Educação\n2 - Saúde\n3 - Academia\n4 - Trabalho\n5 - Hobby\n");
+      printf("\nEscolha a categoria: ");
+      scanf("%d", &cat);
+
+      printf("\n\nPrioridade\n");
+      printf("\nSelecione a prioridade (1 - 10): ");
+      scanf("%d", &pri);
+      
+        
+    }
+    default:
+      printf("Opção inválida.\n");
+      break;
+  }
+
+ 
+
+  fclose(arquivo_tarefas);
+}
