@@ -363,3 +363,57 @@ void listar_tarefas() {
   
   fclose(arquivo_tarefas);
 }
+
+void editar_tarefa(){
+
+  FILE *arquivo_tarefas;
+  struct tarefa tarefas;
+
+  arquivo_tarefas = fopen("tarefas.bin", "rb+");
+  if (arquivo_tarefas ==NULL){
+    printf("Erro ao abrir o arquivo\n");
+    return;
+  }
+
+  //variaveis para identificação 
+  int a;
+  int indce;
+  
+  printf("\nEditar tarefas: \n\n");
+
+  printf("1 - Prioridade\n");
+  printf("2 - Categoria\n");
+  printf("3 - Status\n");
+  printf("4 - Descrição\n");
+
+  //opção para escolher oque editar
+  printf("\nO que deseja editar: ");
+  scanf("%d", &a);
+
+  switch (a){
+
+    case 1:{
+      
+    }
+
+    
+    case 2:{
+      
+    }
+
+    
+    case 3:{
+      
+    }
+    case 4:{
+
+      
+      
+    } 
+    default:{
+      printf("\nOpção inválida.\n");
+      break;
+    }
+  
+  }
+}
