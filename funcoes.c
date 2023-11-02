@@ -188,3 +188,44 @@ void adicionar_tarefas() {
   printf("\nNovo tarefa criada com sucesso!\n");
 }
 
+// Apaga uma tarefa da lista
+void deletar_tarefas() {
+  FILE *arquivo_tarefas;
+  struct tarefa tarefas;
+  int indice_para_deletar;
+  int encontrado = 0;
+
+  // Abre o arquivo original para leitura e escrita em modo binário
+  arquivo_tarefas = fopen("tarefas.bin", "rb+");
+  if (arquivo_tarefas == NULL) {
+    printf("Erro ao abrir o arquivo.\n");
+    return;
+  }
+
+  printf("\nDeletar tarefas: \n");
+
+  printf("\nDigite o indice da tarefa a ser deletada: ");
+  scanf("%d", &indice_para_deletar);
+
+  // Procura pela descrição no arquivo original
+  while (fread(&tarefas, sizeof(tarefas), 1, arquivo_tarefas)) {
+    if (tarefas.indice == indice_para_deletar) {
+      encontrado = 1;
+      break;
+    }
+  }
+
+  if (encontrado) {
+    // Move o ponteiro do arquivo para a posição anterior ao cliente encontrado
+    fseek(arquivo_tarefas, -sizeof(tarefas), SEEK_CUR);
+    // Preenche o espaço do cliente com zeros
+    memset(&tarefas, 0, sizeof(tarefas));
+    // Escreve os zeros no lugar do cliente no arquivo
+    fwrite(&tarefas, sizeof(tarefas), 1, arquivo_tarefas);
+    printf("\nTarefa removida!\n");
+  } else {
+    printf("\nTarefa Inexistente\n");
+  }
+
+  fclose(arquivo_tarefas);
+}
