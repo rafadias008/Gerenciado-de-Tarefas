@@ -360,8 +360,6 @@ void listar_tarefas() {
       printf("Opção inválida.\n");
       break;
   }
-
- 
-
+  
   fclose(arquivo_tarefas);
 }
