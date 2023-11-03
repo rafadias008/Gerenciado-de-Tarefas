@@ -343,19 +343,49 @@ void listar_tarefas() {
     // Ordena as tarefas por prioridade e categoria
     case 4:{
       
-      int cat, pri;
-      
-      printf("\nCategorias: \n");
-      printf("\n1 - Educação\n2 - Saúde\n3 - Academia\n4 - Trabalho\n5 - Hobby\n");
-      printf("\nEscolha a categoria: ");
-      scanf("%d", &cat);
+      //variaveis de categoria e prioridade
+      char categoria_escolhida[11];
+      int prioridade_escolhida, catego;
 
-      printf("\n\nPrioridade\n");
-      printf("\nSelecione a prioridade (1 - 10): ");
-      scanf("%d", &pri);
-      
-        
+      printf("\nCategorias: \n");
+      printf("1 - Educação\n2 - Saúde\n3 - Academia\n4 - Trabalho\n5 - Hobby\n");
+      printf("\nEscolha a categoria: ");
+      scanf("%d", &catego);
+
+      //condição para escolha da categoria
+      if (catego == 1){
+        strcpy(categoria_escolhida, "Educação");
+      } else if (catego == 2){
+        strcpy(categoria_escolhida, "Saúde");
+      } else if (catego == 3){
+        strcpy(categoria_escolhida, "Academia");
+      } else if (catego == 4){
+        strcpy(categoria_escolhida, "Trabalho");
+      } else if (catego == 5){
+        strcpy(categoria_escolhida, "Hobby");
+      } else {
+        printf("Opção inválida.\n");
+        break;
+      }
+
+      printf("Digite a prioridade desejada: ");
+      scanf("%d", &prioridade_escolhida);
+
+      // Filtra e lista as tarefas que atendem aos critérios
+      for (int i = 0; i < num_tarefas; i++) {
+        if (todas_tarefas[i].prioridade == prioridade_escolhida &&
+            strcmp(todas_tarefas[i].categoria, categoria_escolhida) == 0) {
+          printf("\n");
+          printf("Prioridade: %d\n", todas_tarefas[i].prioridade);
+          printf("Descrição: %s\n", todas_tarefas[i].descricao);
+          printf("Categoria: %s\n", todas_tarefas[i].categoria);
+          printf("Status: %s\n", todas_tarefas[i].status);
+          printf("Indice: %d\n", todas_tarefas[i].indice);
+        }
+      }
+      break;
     }
+    
     default:
       printf("Opção inválida.\n");
       break;
