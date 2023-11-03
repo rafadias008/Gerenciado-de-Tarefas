@@ -360,8 +360,87 @@ void listar_tarefas() {
       printf("Opção inválida.\n");
       break;
   }
-
- 
-
+  
   fclose(arquivo_tarefas);
+}
+
+void editar_tarefa(){
+
+  FILE *arquivo_tarefas;
+  struct tarefa tarefas;
+
+  arquivo_tarefas = fopen("tarefas.bin", "rb+");
+  if (arquivo_tarefas ==NULL){
+    printf("Erro ao abrir o arquivo\n");
+    return;
+  }
+
+  //variaveis para identificação 
+  int a;
+  int indce;
+  
+  printf("\nEditar tarefas: \n\n");
+
+  printf("1 - Prioridade\n");
+  printf("2 - Categoria\n");
+  printf("3 - Status\n");
+  printf("4 - Descrição\n");
+
+  //opção para escolher oque editar
+  printf("\nO que deseja editar: ");
+  scanf("%d", &a);
+
+  switch (a){
+
+    //edita a prioridade da tarefa
+    case 1:{
+       printf("\nDigite o indice da tarefa: ");
+      scanf("%d", &indce);
+
+      //procura a tarefa pelo indice 
+      while (fread(&tarefas, sizeof(tarefas), 1, arquivo_tarefas)) {
+        if (tarefas.indice == indce){
+
+          //variavel que armazena a nova prioridade
+          int prio;
+  
+          printf("Digite a nova prioridade: ");
+          scanf("%d", &prio);
+
+          //altera a prioridade da tarefa
+          tarefas.prioridade = prio;
+
+          //salva no arquivo a alteração
+          fseek(arquivo_tarefas, -sizeof(struct tarefa), SEEK_CUR);
+          fwrite(&tarefas, sizeof(struct tarefa), 1, arquivo_tarefas);
+
+          //fecha o arquivo
+          fclose(arquivo_tarefas);
+            
+          printf("\nPrioridade alterada para: %d\n", tarefas.prioridade);
+          return;
+        }  
+      } 
+    }
+
+    
+    case 2:{
+      
+    }
+
+    
+    case 3:{
+      
+    }
+    case 4:{
+
+      
+      
+    } 
+    default:{
+      printf("\nOpção inválida.\n");
+      break;
+    }
+  
+  }
 }
