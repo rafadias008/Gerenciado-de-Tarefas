@@ -423,15 +423,95 @@ void editar_tarefa(){
       } 
     }
 
-    
+    //edita a categoria
     case 2:{
-      
+      printf("\nDigite o indice da tarefa: ");
+      scanf("%d", &indce);
+
+      //procura a tarefa pelo indice
+      while (fread(&tarefas, sizeof(tarefas), 1, arquivo_tarefas)) {
+        if (tarefas.indice == indce){
+
+          //varivel que armazena a nova categoria
+          int cate;
+  
+          printf("\nCategorias: \n");
+          printf("\n1 - Educação\n2 - Saúde\n3 - Academia\n4 - Trabalho\n5 - Hobby\n");
+          printf("\nDigite a nova categoria: ");
+          scanf("%d", &cate);
+
+          //condições que armazenam a nova categoria
+          if (cate == 1){
+            strcpy(tarefas.categoria, "Educação");
+          } else if (cate == 2){
+            strcpy(tarefas.categoria, "Saúde");
+          } else if (cate == 3){
+          strcpy(tarefas.categoria, "Academia");
+          } else if (cate == 4){
+            strcpy(tarefas.categoria, "Trabalho");
+          } else if (cate == 5){
+            strcpy(tarefas.categoria, "Hobby");
+          } else {
+            printf("\nOpção invalida\n");
+            return;
+          }
+
+          //faz alteração no arquivo
+          fseek(arquivo_tarefas, -sizeof(struct tarefa), SEEK_CUR);
+          fwrite(&tarefas, sizeof(struct tarefa), 1, arquivo_tarefas);
+
+          //fecha o arquivo
+          fclose(arquivo_tarefas);
+  
+          printf("\nCategoria alterada para: %s\n", tarefas.categoria);
+          return;
+        }   
+      }
     }
 
-    
+    //edita o status da tarefa
     case 3:{
-      
+      printf("\nDigite o indice da tarefa: ");
+      scanf("%d", &indce);
+
+      //procura a tarefa pelo indice
+      while (fread(&tarefas, sizeof(tarefas), 1, arquivo_tarefas)) {
+        if (tarefas.indice == indce){
+
+          //variavel que armazena o novo status
+          int sts;
+
+          printf("\nStatus: \n");
+          printf("\n1 - Em Andamento\n2 - Concluida\n3 - Não iniciada\n");
+          printf("\nDigite a nova categoria: ");
+          scanf("%d", &sts);
+          
+           //condições que verifica o novo status
+          if (sts == 1){
+            strcpy(tarefas.status, "Em Andamento");
+          } else if (sts == 2){
+            strcpy(tarefas.status, "Concluida");
+          } else if (sts == 3){
+          strcpy(tarefas.status, "Não iniciada");
+          } else {
+            printf("\nOpção invalida\n");
+            return;
+          }
+
+          //Salva as alterações no arquivo
+          fseek(arquivo_tarefas, -sizeof(struct tarefa), SEEK_CUR);
+          fwrite(&tarefas, sizeof(struct tarefa), 1, arquivo_tarefas);
+
+          //fecha o arquivo
+          fclose(arquivo_tarefas);
+
+          printf("\nStatus alterado para: %s\n", tarefas.status);
+          return;
+        }  
+      } 
     }
+
+    //edita a descrição
     case 4:{
 
       
