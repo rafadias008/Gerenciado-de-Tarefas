@@ -514,13 +514,40 @@ void editar_tarefa(){
     //edita a descrição
     case 4:{
 
-      
-      
+        printf("\nDigite o indice da tarefa: ");
+      scanf("%d", &indce);
+
+      //verifica a tarefa pelo indice
+      while (fread(&tarefas, sizeof(tarefas), 1, arquivo_tarefas)) {
+        if (tarefas.indice == indce){
+
+          //variavel que armazena a nova descrição
+          char nova_descricao[100];
+
+          printf("\nDigite a nova descrição: ");
+          scanf("%s", &nova_descricao);
+
+          //faz a alteração da descrição
+          strcpy(tarefas.descricao, nova_descricao);
+
+          //salva no arquivo a nova descrição
+          fseek(arquivo_tarefas, -sizeof(struct tarefa), SEEK_CUR);
+          fwrite(&tarefas, sizeof(struct tarefa), 1, arquivo_tarefas);
+
+          //fecha o arquivo
+          fclose(arquivo_tarefas);
+
+          //imprime a alteração para confirmar o funcionamento
+          printf("\nDescrição alterada para: %s\n", tarefas.descricao);
+          return;
+        }  
+      }  
     } 
+
+    //caso selecione uma opção incorreta
     default:{
       printf("\nOpção inválida.\n");
       break;
     }
-  
   }
 }
