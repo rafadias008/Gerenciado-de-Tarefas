@@ -21,6 +21,7 @@ int obter_indice(const char *tarefas_arquivo) {
   struct tarefa tarefas;
   int maior_indice = 0;
 
+  // Lê o arquivo binário e atualiza o valor da varival para o maior indice
   while (fread(&tarefas, sizeof(struct tarefa), 1, arquivo_tarefas) == 1) {
     if (tarefas.indice > maior_indice) {
       maior_indice = tarefas.indice;
@@ -29,11 +30,12 @@ int obter_indice(const char *tarefas_arquivo) {
 
   fclose(arquivo_tarefas);
 
+  // Retorna o maior indice + 1
   return maior_indice + 1;
 }
 
 // Adiciona uma nova tarefa à lista
-void adicionar_tarefas() {
+void adicionar_tarefas(const char *tarefas_arquivo) {
 
   FILE *arquivo_tarefas;
   struct tarefa tarefas;
@@ -49,20 +51,30 @@ void adicionar_tarefas() {
     }
   }
 
-  // Verificar o número de tarefas ja esta no maximo
-  int numero_tarefas = contar_tarefas();
-  if (numero_tarefas >= 100) {
-    printf("\nLimite de tarefas atingido (100 tarefasno máximo).\n");
-    return;
+  // variavel para contar as tarefas
+  int contador = 0;
+  //contador de tarefas
+  while (fread(&tarefas, sizeof(tarefas), 1, arquivo_tarefas)) {
+    contador++;
   }
 
+  //verifica se o numero de tarefas foi atingido
+  int numero_tarefas = contador;
+  if (numero_tarefas >= 100) {
+    printf("\nLimite de tarefas atingido.\n");
+    return;
+  }
+  
+
+  
+   //escreve a categoria deseja criar
   printf("\nCategorias: \n");
   printf("1 - Educação\n2 - Saúde\n3 - Academia\n4 - Trabalho\n5 - Hobby\n");
   printf("\nEscolha a categoria: ");
   fgets(tarefas.categoria, sizeof(tarefas.categoria), stdin);
   tarefas.categoria[strcspn(tarefas.categoria, "\n")] = '\0';
 
-
+  //condição para verificar a categoria escolhida
   if (strcmp(tarefas.categoria, "1") == 0) {
     strcpy(tarefas.categoria, "Educação");
   } else if (strcmp(tarefas.categoria, "2") == 0) {
@@ -79,21 +91,29 @@ void adicionar_tarefas() {
   }
   while ((getchar()) != '\n');
 
-
+  //faz a descrição da tarefa
   printf("\nDigite a descricao da tarefa: ");
   fgets(tarefas.descricao, sizeof(tarefas.descricao), stdin);
   tarefas.descricao[strcspn(tarefas.descricao, "\n")] = '\0';
-  
-  printf("\nDigite a prioridade da tarefa (0-10): ");
+
+  //seleciona a prioridade da tarefa
+  printf("\nDigite a prioridade da tarefa (1 - 10): ");
   scanf("%d", &tarefas.prioridade);
   getchar();
 
+  if(tarefas.prioridade > 10 && tarefas.prioridade < 1){
+    printf("\nPrioridade escolhida invalida\n");
+    return;
+  }
+
+  //cria o status da tarefa 
   printf("\nStatus: \n");
   printf("1 - Em andamento\n2 - Concluida\n3 - Não iniciada\n");
   printf("\nEscolha o status: ");
   fgets(tarefas.status, sizeof(tarefas.status), stdin);
   tarefas.status[strcspn(tarefas.status, "\n")] = '\0';
 
+  //condição para selecionar o status da tarefa
   if (strcmp(tarefas.status, "1") == 0) {
     strcpy(tarefas.status, "Em Andamento");
   } else if (strcmp(tarefas.status, "2") == 0) {
@@ -104,8 +124,9 @@ void adicionar_tarefas() {
     printf("\nOpção inválida\n");
     return;
   }
-  
-  tarefas.indice = obter_indice();
+
+  //cria o indice para a tarefa
+  tarefas.indice = obter_indice("tarefas.bin");
   
   // Abre o arquivo binário para escrita em modo de adição
   arquivo_tarefas = fopen("tarefas.bin", "ab");
@@ -113,9 +134,10 @@ void adicionar_tarefas() {
     printf("Erro ao abrir o arquivo.\n");
     return;
   }
-
+  
   fwrite(&tarefas, sizeof(struct tarefa), 1, arquivo_tarefas);
 
+  
   fclose(arquivo_tarefas);
 
   printf("\nNovo tarefa criada com sucesso!\n");
