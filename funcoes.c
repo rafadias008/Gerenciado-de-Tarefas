@@ -237,8 +237,9 @@ void listar_tarefas(int filtro_selecionado) {
     }
 
     
-    // Ordena as tarefas por categoria
+    // Filtra as tarefas por categoria
     case 2:{ 
+      
       char categoria_escolhida[11];
       int catego;
 
@@ -289,23 +290,35 @@ void listar_tarefas(int filtro_selecionado) {
       }
       fclose(arquivo_filtros);
       break;
+      
     }
 
     
     // Ordenas as tarefas por status
     case 3:{
-      for (int i = 0; i < num_tarefas - 1; i++) {
-        for (int j = i + 1; j < num_tarefas; j++) {
-          if (strcmp(todas_tarefas[i].status, todas_tarefas[j].status) > 0) {
-            struct tarefa temp = todas_tarefas[i];
-            todas_tarefas[i] = todas_tarefas[j];
-            todas_tarefas[j] = temp;
-          }
-        }
+
+      char sta_escolhido[14];
+      int stat;
+
+      printf("\nStatus: \n");
+      printf("1 - Em Andamento\n2 - Concluida\n3 - Não Iniciada\n");
+      printf("\nEscolha o status da tarefa: ");
+      scanf("%d", &stat);
+
+      if (stat == 1) {
+          strcpy(sta_escolhido, "Em Andamento");
+      } else if (stat == 2) {
+          strcpy(sta_escolhido, "Concluida");
+      } else if (stat == 3) {
+          strcpy(sta_escolhido, "Não Iniciada");
+      } else {
+          printf("Opção inválida.\n");
+          break;
       }
-      // Lista as tarefas ordenadas
+      
+      // Filtra e lista as tarefas que atendem aos critérios
       for (int i = 0; i < num_tarefas; i++) {
-        if (todas_tarefas[i].prioridade > 0) {
+        if (strcmp(todas_tarefas[i].status, sta_escolhido) == 0) {
           printf("\n");
           printf("Prioridade: %d\n", todas_tarefas[i].prioridade);
           printf("Descrição: %s\n", todas_tarefas[i].descricao);
@@ -315,10 +328,11 @@ void listar_tarefas(int filtro_selecionado) {
         }
       }
       break;
+      
     }
     // Ordena as tarefas por prioridade e categoria
-    case 4:{
-      
+    case 4: {
+
       //variaveis de categoria e prioridade
       char categoria_escolhida[11];
       int prioridade_escolhida, catego;
@@ -357,8 +371,11 @@ void listar_tarefas(int filtro_selecionado) {
           printf("Categoria: %s\n", todas_tarefas[i].categoria);
           printf("Status: %s\n", todas_tarefas[i].status);
           printf("Indice: %d\n", todas_tarefas[i].indice);
+
+          fprintf(arquivo_filtros, "Prioridade: %d | Categoria: %s | Status: %s | Descrição: %s\n" , todas_tarefas[i].prioridade, todas_tarefas[i].categoria, todas_tarefas[i].status, todas_tarefas[i].descricao);
         }
       }
+      fclose(arquivo_filtros);
       break;
     }
     
@@ -366,7 +383,7 @@ void listar_tarefas(int filtro_selecionado) {
       printf("Opção inválida.\n");
       break;
   }
-  
+
   fclose(arquivo_tarefas);
 }
 
