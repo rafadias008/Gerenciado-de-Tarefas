@@ -177,11 +177,10 @@ void deletar_tarefas(int indice) {
   fclose(arquivo_tarefas);
 }
 
-void listar_tarefas() {
-  FILE *arquivo_tarefas;
+//Lista tarefas
+void listar_tarefas(int filtro_selecionado) {
+  FILE *arquivo_tarefas, *arquivo_filtros;
   struct tarefa tarefas;
-
-  int tipo_filtro;
 
   // Abre o arquivo binário para leitura
   arquivo_tarefas = fopen("tarefas.bin", "rb");
@@ -190,16 +189,16 @@ void listar_tarefas() {
     return;
   }
 
-  printf("\nLista de Tarefas:\n\n");
+  // Abre o arquivo binário para leitura
+  arquivo_filtros = fopen("filtros.txt", "w");
+  if (arquivo_tarefas == NULL) {
+    printf("Erro ao abrir o arquivo.\n");
+    return;
+  }
 
-  printf("Escolha o filtro: \n\n");
-  printf("1 - Prioridade\n2 - Categoria\n3 - Status\n4 - Prioridade e Categoria\n");
-  printf("\nFiltro escolhido: ");
-  scanf("%d", &tipo_filtro);
-  printf("\n");
 
   // Lê todas as tarefas para um array
-  struct tarefa todas_tarefas[100]; // Assumindo um número máximo de tarefas (ajuste conforme necessário)
+  struct tarefa todas_tarefas[100]; // Assumindo um número máximo de tarefas
   int num_tarefas = 0;
 
   while (fread(&tarefas, sizeof(struct tarefa), 1, arquivo_tarefas) == 1 && num_tarefas < 100) {
@@ -208,14 +207,15 @@ void listar_tarefas() {
   }
 
   // Ordena as tarefas
-  switch (c) {
+  switch (filtro_selecionado){
 
     
-    // Ordena as tarefas por prioridade
-    case 1:{ 
+    // Filtra as tarefas por prioridade
+    case 1:{  
+
       int prioridade_escolhida;
 
-      printf("Digite a prioridade desejada: ");
+      printf("Digite a prioridade desejada (1 - 10): ");
       scanf("%d", &prioridade_escolhida);
 
       
