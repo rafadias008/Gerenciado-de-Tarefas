@@ -404,9 +404,9 @@ void editar_tarefa(int opcao_editar){
 
   switch (opcao_editar){
 
-    //edita a prioridade da tarefa
+    //editar prioridade de tarefa
     case 1:{
-       printf("\nDigite o indice da tarefa: ");
+      printf("\nDigite o indice da tarefa: ");
       scanf("%d", &indce);
 
       //procura a tarefa pelo indice 
@@ -428,14 +428,15 @@ void editar_tarefa(int opcao_editar){
 
           //fecha o arquivo
           fclose(arquivo_tarefas);
-            
+
+          //imprime a alteração para confirmar o funcionamento 
           printf("\nPrioridade alterada para: %d\n", tarefas.prioridade);
           return;
         }  
       } 
     }
 
-    //edita a categoria
+    //edita a categoria da tarefa
     case 2:{
       printf("\nDigite o indice da tarefa: ");
       scanf("%d", &indce);
@@ -474,7 +475,8 @@ void editar_tarefa(int opcao_editar){
 
           //fecha o arquivo
           fclose(arquivo_tarefas);
-  
+
+          //imprime a alteração para confirmar o funcionamento
           printf("\nCategoria alterada para: %s\n", tarefas.categoria);
           return;
         }   
@@ -504,7 +506,7 @@ void editar_tarefa(int opcao_editar){
           } else if (sts == 2){
             strcpy(tarefas.status, "Concluida");
           } else if (sts == 3){
-          strcpy(tarefas.status, "Não iniciada");
+          strcpy(tarefas.status, "Nao iniciada");
           } else {
             printf("\nOpção invalida\n");
             return;
@@ -517,18 +519,19 @@ void editar_tarefa(int opcao_editar){
           //fecha o arquivo
           fclose(arquivo_tarefas);
 
+          //imprime a alteração para confirmar o funcionamento
           printf("\nStatus alterado para: %s\n", tarefas.status);
           return;
         }  
       } 
     }
 
-    //edita a descrição
+    //edita a descrição da tarefa
     case 4:{
 
-        printf("\nDigite o indice da tarefa: ");
+      printf("\nDigite o indice da tarefa: ");
       scanf("%d", &indce);
-
+      getchar();
       //verifica a tarefa pelo indice
       while (fread(&tarefas, sizeof(tarefas), 1, arquivo_tarefas)) {
         if (tarefas.indice == indce){
@@ -537,7 +540,9 @@ void editar_tarefa(int opcao_editar){
           char nova_descricao[100];
 
           printf("\nDigite a nova descrição: ");
-          scanf("%s", &nova_descricao);
+          fgets(nova_descricao, sizeof(nova_descricao), stdin);
+          // Remove o caractere de quebra de linha no final da string
+          nova_descricao[strcspn(nova_descricao, "\n")] = 0;
 
           //faz a alteração da descrição
           strcpy(tarefas.descricao, nova_descricao);
@@ -550,7 +555,7 @@ void editar_tarefa(int opcao_editar){
           fclose(arquivo_tarefas);
 
           //imprime a alteração para confirmar o funcionamento
-          printf("\nDescrição alterada para: %s\n", tarefas.descricao);
+          printf("\n\nDescrição alterada para: %s\n", tarefas.descricao);
           return;
         }  
       }  
@@ -561,5 +566,6 @@ void editar_tarefa(int opcao_editar){
       printf("\nOpção inválida.\n");
       break;
     }
+  
   }
 }
