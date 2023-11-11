@@ -65,8 +65,6 @@ void adicionar_tarefas(const char *tarefas_arquivo) {
     return;
   }
   
-
-  
    //escreve a categoria deseja criar
   printf("\nCategorias: \n");
   printf("1 - Educação\n2 - Saúde\n3 - Academia\n4 - Trabalho\n5 - Hobby\n");
@@ -144,10 +142,9 @@ void adicionar_tarefas(const char *tarefas_arquivo) {
 }
 
 // Apaga uma tarefa da lista
-void deletar_tarefas() {
+void deletar_tarefas(int indice) {
   FILE *arquivo_tarefas;
   struct tarefa tarefas;
-  int indice_para_deletar;
   int encontrado = 0;
 
   // Abre o arquivo original para leitura e escrita em modo binário
@@ -157,25 +154,20 @@ void deletar_tarefas() {
     return;
   }
 
-  printf("\nDeletar tarefas: \n");
-
-  printf("\nDigite o indice da tarefa a ser deletada: ");
-  scanf("%d", &indice_para_deletar);
-
-  // Procura pela descrição no arquivo original
+  // Procura pelo indice no arquivo original
   while (fread(&tarefas, sizeof(tarefas), 1, arquivo_tarefas)) {
-    if (tarefas.indice == indice_para_deletar) {
+    if (tarefas.indice == indice) {
       encontrado = 1;
       break;
     }
   }
 
   if (encontrado) {
-    // Move o ponteiro do arquivo para a posição anterior ao cliente encontrado
+    // Move o ponteiro do arquivo para a posição anterior a tarefa encontrado
     fseek(arquivo_tarefas, -sizeof(tarefas), SEEK_CUR);
-    // Preenche o espaço do cliente com zeros
+    // Preenche o espaço da tarefa com zeros
     memset(&tarefas, 0, sizeof(tarefas));
-    // Escreve os zeros no lugar do cliente no arquivo
+    // Escreve os zeros no lugar da tarefa no arquivo
     fwrite(&tarefas, sizeof(tarefas), 1, arquivo_tarefas);
     printf("\nTarefa removida!\n");
   } else {
