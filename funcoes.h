@@ -2,18 +2,14 @@
 #ifndef UNTITLED1_BIBLIOTECA_H
 #define UNTITLED1_BIBLIOTECA_H
 
-void menu();
+int obter_indice(const char *tarefas_arquivo);
 
-int contar_tarefas();
+void adicionar_tarefas(const char *tarefas_arquivo);
 
-int obter_indice();
+void deletar_tarefas(int indice);
 
-void adicionar_tarefas();
+void listar_tarefas(int filtro_selecionado);
 
-void deletar_tarefas();
-
-void listar_tarefas();
-
-void editar_tarefa();
+void editar_tarefa(int opcao_editar);
 
 #endif //UNTITLED1_BIBLIOTECA_H
