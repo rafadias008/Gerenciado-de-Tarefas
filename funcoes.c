@@ -387,7 +387,7 @@ void listar_tarefas(int filtro_selecionado) {
   fclose(arquivo_tarefas);
 }
 
-void editar_tarefa(){
+void editar_tarefa(int opcao_editar){
 
   FILE *arquivo_tarefas;
   struct tarefa tarefas;
@@ -399,21 +399,10 @@ void editar_tarefa(){
   }
 
   //variaveis para identificação 
-  int a;
   int indce;
   
-  printf("\nEditar tarefas: \n\n");
 
-  printf("1 - Prioridade\n");
-  printf("2 - Categoria\n");
-  printf("3 - Status\n");
-  printf("4 - Descrição\n");
-
-  //opção para escolher oque editar
-  printf("\nO que deseja editar: ");
-  scanf("%d", &a);
-
-  switch (a){
+  switch (opcao_editar){
 
     //edita a prioridade da tarefa
     case 1:{
